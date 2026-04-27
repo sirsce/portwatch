@@ -1,15 +1,12 @@
-// Package monitor provides the core port-monitoring loop for portwatch.
+// Package monitor watches a set of TCP ports on the local host at a
+// configurable interval and tracks state transitions (open ↔ closed).
 //
-// It periodically scans a configured list of TCP ports on a target host,
-// tracks state transitions using a History, and dispatches alerts via the
-// alert.Dispatcher when a port's availability changes.
+// Core types:
 //
-// # Components
-//
-//   - Monitor: orchestrates the scan loop and wires together the scanner,
-//     history, and dispatcher.
-//   - History: records per-port boolean states and surfaces transitions so
-//     that alerts are only emitted on change.
-//   - Report: a point-in-time snapshot of all monitored ports, built from
-//     the latest History entries; useful for status endpoints or log lines.
+//   - Monitor   – drives the scan loop and emits alerts via the dispatcher.
+//   - History   – records per-port state transitions with eviction.
+//   - Report    – aggregates current port states into a human-readable summary.
+//   - Snapshot  – a point-in-time view of all port states that can be
+//     persisted to disk and reloaded across daemon restarts via
+//     SnapshotStore.
 package monitor
