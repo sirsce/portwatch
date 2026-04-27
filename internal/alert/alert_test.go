@@ -46,6 +46,12 @@ func TestWebhookNotifier_Notify_Success(t *testing.T) {
 	if received.Status != event.Status {
 		t.Errorf("expected status %q, got %q", event.Status, received.Status)
 	}
+	if received.Host != event.Host {
+		t.Errorf("expected host %q, got %q", event.Host, received.Host)
+	}
+	if received.Message != event.Message {
+		t.Errorf("expected message %q, got %q", event.Message, received.Message)
+	}
 }
 
 func TestWebhookNotifier_Notify_Non2xx(t *testing.T) {
